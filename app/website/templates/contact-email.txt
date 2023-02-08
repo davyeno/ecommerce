@@ -1,0 +1,11 @@
+First Name: {{ first_name }}
+Last Name: {{ last_name }}
+Phone Number: {{ phone }}
+Email: {{ email }} 
+
+Message Subject:
+{{ subject }}
+
+Message Content:
+{{ message }}
+

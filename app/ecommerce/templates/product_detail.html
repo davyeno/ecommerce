@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block product %}
+    <section class="breadcrumbs" style="padding-top: 12.5rem;">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'ecommerce:shop-all' %}">Shop</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="all">{{ data.title }}</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% csrf_token %}
+    <!-- product -->
+    <section class="hero pt-5" style="background-color:white">
+        <div class="container">
+            <div class="row gutter-2 gutter-md-4 justify-content-between">
+                <div class="col-lg-7">
+                    <div class="row gutter-1 justify-content-between">
+                        <div class="col-lg-10 order-lg-2">
+                            <div class="owl-carousel gallery"
+                                 data-slider-id="1"
+                                 data-thumbs="true"
+                                 data-nav="true">
+                                <figure>
+                                    <img src="{{ data.images.url }}" alt="Image">
+                                </figure>
+                                {% for j in aux_images %}
+                                    <figure>
+                                        <img src="{{ j.images.url }}" alt="Image">
+                                    </figure>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="col-lg-2 text-center text-lg-left order-lg-1">
+                            <div class="owl-thumbs" data-slider-id="1">
+                                <span class="owl-thumb-item">
+                                    <img src="{{ data.images.url }}" alt="">
+                                </span>
+                                {% for j in aux_images %}
+                                    <span class="owl-thumb-item">
+                                        <img src="{{ j.images.url }}" alt="">
+                                    </span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 mb-5 mb-lg-0">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="item-brand">{{ data.category }}</span>
+                            <h1 class="item-title">{{ data.title }}</h1>
+                            <span class="item-price">$ {{ data.price }}</span>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Color:</label>
+                                <span id="colorchoice"></span>
+                                <div class="btn-group-toggle btn-group-square btn-group-colors"
+                                     data-toggle="buttons">
+                                    {% for i in color %}
+                                        {% ifchanged i.color_id__name %}
+                                            {% if forloop.first %}
+                                                <label class="btn active coloroptions"
+                                                       id="{{ i.color_id__id }}"
+                                                       value="{{ i.color_id__name }}"
+                                                       style="background-color:#D0D3D4;
+                                                              color:{{ i.color_id__name }};">
+                                                    <input type="radio" id="{{ i.color_id__name }}" checked>
+                                                </label>
+                                            {% else %}
+                                                <label class="btn coloroptions"
+                                                       id="{{ i.color_id__id }}"
+                                                       value="{{ i.color_id__name }}"
+                                                       style="background-color:#D0D3D4;
+                                                              color:{{ i.color_id__name }};">
+                                                    <input type="radio" id="{{ i.color_id__name }}">
+                                                </label>
+                                            {% endif %}
+                                        {% endifchanged %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1" style="display:none" id = "sizeElements">
+                            <div class="form-group">
+                                <label>Size:</label>
+                                <span id="sizechoice"></span>
+                                <div class="btn-group-toggle btn-group-square"
+                                     data-toggle="buttons"
+                                     id="filteredSizeChoice"></div>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1" style="display:none" id = "quantityElements">
+                            <label>Quantity:</label>
+                            <span id="quantiychoice"></span>
+                            <select class="custom-select" id="filteredQuantityChoice">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a data-action="add"
+                               data-product="{{ data.item_id }}"
+                               id="AddtoCart"
+                               class="btn btn-block btn-lg btn-dark text-white disabled">Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- info -->
+    <section class="separator-bottom">
+        <div class="container">
+            <div class="row gutter-2 gutter-lg-4">
+                <div class="col-lg-4">
+                    <ul class="list-group list-group-line">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            SKU
+                            {% for item in inventory %}<span class="text-dark">{{ item.SKU }}</span>{% endfor %}
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Category
+                            <span class="text-dark"><a href="{% url 'ecommerce:shop-category' data.category %}"
+                            class="underline text-dark">{{ data.category }}</a></span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tags
+                            <span class="text-dark">
+                                {% for i in color %}<a class="underline text-dark">{{ i.color_id__name }}</a>{% endfor %}
+                                {% for i in size %}<a class="underline text-dark">{{ i.size_id__name }}</a>{% endfor %}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-8">
+                        <h5><strong>Alterations</strong> </h5>
+                        <p>
+                            We currently offer alteration on all order for free when you first purchases our product.
+                        </p>
+                        <h5><strong>Shipping & Delivery</strong></h5>
+                        <p>
+                            We currently offer pick-up within in Northern Virginia at our shop. We also offer ship to customers within the 15 miles of Fairfax, VA.
+                        </p>
+                        <p>
+                            For all orders, we will ship free to your door!
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- related products -->
+        <section class="separator-top no-overflow">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <ul class="nav nav-tabs lavalamp" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                   id="home-tab"
+                                   data-toggle="tab"
+                                   href="#home"
+                                   role="tab"
+                                   aria-controls="home"
+                                   aria-selected="true">Related Products</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active"
+                                 id="home"
+                                 role="tabpanel"
+                                 aria-labelledby="home-tab">
+                                <div class="owl-carousel owl-carousel-arrows visible"
+                                     data-items="[4,4,2,1]"
+                                     data-margin="10"
+                                     data-loop="true"
+                                     data-dots="true"
+                                     data-nav="true">
+                                    {% for i in related_product %}
+                                        <div class="product">
+                                            <figure class="product-image">
+                                                <a href="{% url 'ecommerce:product-detail' i.slug %}">
+                                                    <img src="{{ i.images.url }}" alt="Image">
+                                                </a>
+                                            </figure>
+                                            <div class="product-meta">
+                                                <h3 class="product-title">
+                                                    <a href="{% url 'ecommerce:product-detail' i.slug %}">{{ i.title }}</a>
+                                                </h3>
+                                                <div class="product-price">
+                                                    <span>{{ i.price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script src="{% static 'vendor/js/cart.js' %}"></script>
+    {% endblock %}

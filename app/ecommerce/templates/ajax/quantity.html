@@ -1,0 +1,12 @@
+{% load static %}
+{% for i in quantity%}
+    {% if forloop.first %}    
+    <option value="{{ i }}" selected>
+        {{ i }}
+    </option>
+    {% else %}
+    <option value="{{ i }}">
+        {{ i }}
+    </option>
+    {% endif%}
+{% endfor %}

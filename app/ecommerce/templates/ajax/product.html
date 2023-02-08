@@ -1,0 +1,20 @@
+{% load static %}
+{% for i in product %}
+    <div class="col-md-6 col-xl-4">
+        <div class="product">
+            <figure class="product-image">
+                <a href="{% url 'ecommerce:product-detail' i.slug %}">
+                    <img src="{{ i.images.url }}" width="300" height="450" alt="Image" />
+                    {% for aux_image in aux_images %}
+                        {% if aux_image.item_id.item_id == i.item_id %}
+                            <img src="{{ aux_image.images.url }}" width="300" height="450" alt="Image" />
+                        {% endif %}
+                    {% endfor %}
+                </a>
+            </figure>
+            <a class="product-title text-dark"
+               href="{% url 'ecommerce:product-detail' i.slug %}">{{ i.title }}</a>
+            <span class="product-price">$ {{ i.price }}</span>
+        </div>
+    </div>
+{% endfor %}

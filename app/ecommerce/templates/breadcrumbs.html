@@ -1,0 +1,17 @@
+{% load static %}
+
+<section class="breadcrumbs">
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="shop/">Home</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'ecommerce:shop-category' 'all' %}">Shop</a></li>
+              <li class="breadcrumb-item active" aria-current="all">Product Masonry</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+</section>

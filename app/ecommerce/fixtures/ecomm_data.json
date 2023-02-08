@@ -1,0 +1,214 @@
+[
+    {
+        "model": "ecommerce.attribute",
+        "pk": 1,
+        "fields": {
+            "name": "Color",
+            "hierarchy_level": "1",
+            "is_filtered": "True"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 2,
+        "fields": {
+            "name": "Size",
+            "hierarchy_level": "1",
+            "is_filtered": "True"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 3,
+        "fields": {
+            "name": "Price",
+            "hierarchy_level": "1",
+            "is_filtered": "True"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 4,
+        "fields": {
+            "name": "Address Type",
+            "hierarchy_level": "1",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 5,
+        "fields": {
+            "name": "Billing",
+            "hierarchy_level": "2",
+            "is_filtered": "False",
+            "parent_id": "4"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 6,
+        "fields": {
+            "name": "Shippping",
+            "hierarchy_level": "2",
+            "is_filtered": "False",
+            "parent_id": "4"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 7,
+        "fields": {
+            "name": "Order Type",
+            "hierarchy_level": "1",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 8,
+        "fields": {
+            "name": "pickup",
+            "hierarchy_level": "2",
+            "is_filtered": "False",
+            "parent_id": "7"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 9,
+        "fields": {
+            "name": "shiptohome",
+            "hierarchy_level": "2",
+            "is_filtered": "False",
+            "parent_id": "7"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 10,
+        "fields": {
+            "name": "Black",
+            "hierarchy_level": "2",
+            "is_filtered": "True",
+            "parent_id": "1",
+            "presentation": "dark"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 11,
+        "fields": {
+            "name": "White",
+            "hierarchy_level": "2",
+            "is_filtered": "True",
+            "parent_id": "1",
+            "presentation": "light"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 12,
+        "fields": {
+            "name": "Small",
+            "hierarchy_level": "2",
+            "is_filtered": "True",
+            "parent_id": "2",
+            "presentation": "S"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 13,
+        "fields": {
+            "name": "Shipping Cost",
+            "hierarchy_level": "1",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 14,
+        "fields": {
+            "name": "9.99",
+            "hierarchy_level": "2",
+            "parent_id": "13",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 15,
+        "fields": {
+            "name": "Order Status",
+            "hierarchy_level": "1",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 16,
+        "fields": {
+            "name": "Received",
+            "hierarchy_level": "2",
+            "parent_id": "15",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 17,
+        "fields": {
+            "name": "Confirmed",
+            "hierarchy_level": "2",
+            "parent_id": "15",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.attribute",
+        "pk": 18,
+        "fields": {
+            "name": "Completed",
+            "hierarchy_level": "2",
+            "parent_id": "15",
+            "is_filtered": "False"
+        }
+    },
+    {
+        "model": "ecommerce.category",
+        "pk": 1,
+        "fields": {
+            "name": "Gender",
+            "hierarchy_level": "1"
+        }
+    },
+    {
+        "model": "ecommerce.category",
+        "pk": 2,
+        "fields": {
+            "name": "Women",
+            "hierarchy_level": "2",
+            "parent_id": "1"
+        }
+    },
+    {
+        "model": "ecommerce.category",
+        "pk": 3,
+        "fields": {
+            "name": "Men",
+            "hierarchy_level": "2",
+            "parent_id": "1"
+        }
+    },
+    {
+        "model": "ecommerce.category",
+        "pk": 4,
+        "fields": {
+            "name": "Kids",
+            "hierarchy_level": "2",
+            "parent_id": "1"
+        }
+    }
+    
+]

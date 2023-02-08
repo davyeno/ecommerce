@@ -1,0 +1,91 @@
+{% load static %}
+<aside class="col-lg-3 sidebar">
+    <div class="widget">
+        <span class="widget-collapse d-lg-none" data-toggle="collapse" data-target="#collapse-categories" aria-expanded="false"
+            aria-controls="collapse-1" role="button">
+            Filter by Category
+        </span>
+        <div class="d-lg-block collapse" id="collapse-categories">
+            <span class="widget-title">Categories</span>
+            <div class="widget-content">
+                <ul id="page-nav" class="nav flex-column nav-category">
+                    {% for item in category %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'ecommerce:shop-category' item.slug_url %}" role="button">{{ item.name }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% for attribute in attribute %}
+    {% if attribute.name in 'Price, Prices' %}
+    <div class="widget">
+        <span class="widget-collapse d-lg-none" data-toggle="collapse" data-target="#collapse-{{ forloop.counter }}"
+            aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}" role="button">
+            Filter by {{ attribute.name }}
+        </span>
+        <div class="d-lg-block collapse" id="collapse-{{ forloop.counter }}">
+            <span class="widget-title">{{ attribute.name }}</span>
+            <div class="widget-content">
+                <input type="text" class="rangeslider" name="Range Slider" data-min="0"
+                    data-max="{{ price_filter.price__max|add:" 50" }}" data-from="0"
+                    data-to="{{ price_filter.price__max|add:" 50" }}" />
+            </div>
+        </div>
+    </div>
+    {% elif attribute.name in 'Colors,Color' %}
+    <div class="widget">
+        <span class="widget-collapse d-lg-none" data-toggle="collapse" data-target="#collapse-{{ forloop.counter }}"
+            aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}" role="button">
+            Filter by {{ attribute.name }}
+        </span>
+        <div class="d-lg-block collapse" id="collapse-{{ forloop.counter }}">
+            <span class="widget-title">{{ attribute.name }}</span>
+            <div class="widget-content">
+                <ul class="list-unstyled">
+                    {% for i in attribute_type %}
+                    {% if i.parent_name == attribute.name %}
+                    <li>
+                        <div class="form-check form-check-color">
+                            <input class="form-check-input" data-filter="{{ i.parent_name }}" type="checkbox"
+                                value="{{ i.id }}" id="{{ i.id }}">
+                            <label class="form-check-label" for="{{ i.id }}">
+                                <span class="bg-{{ i.presentation|lower }}"></span> {{ i.name }}
+                            </label>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="widget">
+        <span class="widget-collapse d-lg-none" data-toggle="collapse" data-target="#collapse-{{ forloop.counter }}"
+            aria-expanded="false" aria-controls="collapse-{{ forloop.counter }}" role="button">
+            Filter by {{ attribute.name }}
+        </span>
+        <div class="d-lg-block collapse" id="collapse-{{ forloop.counter }}">
+            <span class="widget-title">{{ attribute.name }}</span>
+            <div class="widget-content">
+                <ul class="list-unstyled">
+                    {% for i in attribute_type %}
+                    {% if i.parent_name == attribute.name %}
+                    <li>
+                        <div class="form-check form-check-minimal">
+                            <input class="form-check-input" data-filter="{{ i.parent_name }}" value="{{ i.id }}"
+                                type="checkbox" id="{{ i.id }}">
+                            <label class="form-check-label" for="{{ i.id }}">{{ i.name }}</label>
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</aside>

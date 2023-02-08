@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block checkout %}
+<section class="hero hero-small">
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Order Confirmation</h1>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="py-10 py-xl-10">
+    <div class="container">
+        <div class="row gutter-2 justify-content-between">
+            <div class="col-lg-12">  
+                <div class="row align-items-end mb-2">
+                    
+                        <h2 class="h3">
+                            YOUR ORDER WAS PLACED SUCCESSFULLY
+                        </h2>
+                   
+                </div>     
+                <div class="row align-items-end mb-2">
+                    
+                        <h2 class="h5 mb-0 text-muted">
+                            Order Number: {{ order_ref_id.ref_id }}
+                        </h2>
+                    
+                </div>   
+
+                <div class="row align-items-end mb-2">
+                    
+                    <h2 class="h5 mb-0 text-muted">
+                        Hi {{ order_ref_id.customer_id.first_name }}, thanks for shopping with us! We'll send a confirmation email to {{ order_ref_id.customer_id.email }} shortly
+                    </h2>
+                
+                </div>  
+                
+                
+            </div>
+        </div>
+            <!-- <aside class="col-lg-4"> -->
+        <div class="row gutter-2 gutter-lg-4 justify-content-between">
+                <!-- order summary -->
+                <div class="col-12">
+                    <div class="card card-data bg-light">
+                        <div class="card-header py-2 px-3">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="fs-18 mb-0">
+                                        Order Summary
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-minimal">
+                                <li class="list-group-item d-flex
+                                    justify-content-between
+                                    align-items-center">
+                                    <input type="hidden" name='subtotal' value={{ sub_total|floatformat:2 }}>
+                                    Subtotal
+                                    <span>$ {{ order_ref_id.subtotal|floatformat:2 }}</span>
+                                </li>
+                                <li class="list-group-item d-flex
+                                    justify-content-between
+                                    align-items-center">
+                                    Tax
+                                    <span>-</span>
+                                </li>
+                                <li class="list-group-item d-flex
+                                    justify-content-between
+                                    align-items-center">
+                                    <input type="hidden" name='shipcost' value='0'>
+                                    Shipping
+                                    <span id="shipping-cost">$ {{ order_ref_id.shipping_price|floatformat:2 }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-footer py-2">
+                            <ul class="list-group list-group-minimal">
+                                <li class="list-group-item d-flex
+                                    justify-content-between
+                                    align-items-center text-dark fs-18">
+                                    <input type="hidden" name='totalnet' value={{ total|floatformat:2 }}>
+                                    Total
+                                    <span id="total-net">$ {{ order_ref_id.total_net|floatformat:2 }}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+        </div>    
+                
+        <div class="row gutter-2 gutter-lg-4 justify-content-between">       
+                <!-- order preview -->
+                <div class="col-12 mt-1">
+                    <div class="card card-data bg-light">
+                        <div class="card-header py-2 px-3">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h3 class="fs-18 mb-0">
+                                        Order Details
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+
+                            <div class="row mb-1 d-none d-lg-flex">
+                                <div class="col-lg-12">
+                                  <div class="row pr-6">
+                                    <div class="col-lg-6"><span class="eyebrow">Product</span></div>
+                                    <div class="col-lg-2 text-center"><span class="eyebrow">Price</span></div>
+                                    <div class="col-lg-2 text-center"><span class="eyebrow">Quantity</span></div>
+                                    <div class="col-lg-2 text-center"><span class="eyebrow">Total</span></div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row gutter-2 gutter-lg-4 justify-content-between">
+                      
+                                <div class="col-lg-12 cart-item-list">
+                      
+                                  <!-- cart item -->
+                                  {% for i in ordered_items %}
+                                  <div class="cart-item">
+                                    <div class="row align-items-center">
+                                      <div class="col-12 col-lg-6">
+                                        <div class="media media-product">
+                                          <a href="{% url 'ecommerce:product-detail' i.SKU.item_id.slug %}">
+                                            <img src="{{ i.SKU.item_id.images.url }}"
+                                            width="80" height="120"
+                                            alt="Image"></a>
+                                          <div class="media-body">
+                                            <h5 class="media-title">{{ i.SKU.item_id.title }}</h5>
+                                            <span class="small">SKU:  {{ i.SKU }}</span><br>
+                                            <span class="small">Color:  {{ i.SKU.color }}</span><br>
+                                            <span class="small">Size:   {{ i.SKU.size }}</span>
+                                          </div>
+                                          
+                                        </div>
+                                      </div>
+                                      <div class="col-4 col-lg-2 text-center">
+                                        <span class="cart-item-price">${{ i.unit_price|floatformat:2 }}</span>
+                                      </div>
+                                      <div class="col-4 col-lg-2 text-center">
+                                        <span class="cart-item-price">{{ i.quantity }}</span>
+                                      </div>
+                                      <div class="col-4 col-lg-2 text-center">
+                                        <span class="cart-item-price">${{ i.total_price|floatformat:2 }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                      
+                                </div>
+                            </div>
+                            
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+
+            
+            <!-- </aside> -->
+        
+  
+        </div>
+    </div>
+</section>
+<script src="{% static 'vendor/js/cart.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% load static %}
+<div class="container" style="min-height:60vh">
+    <div class="row justify-content-end">
+        <div class="col-md-9">
+            <div class="row gutter-2 align-items-end">
+                <div class="col-md-6">
+                    {% if request == 'all' %}
+                        <h1 class="mb-0">All</h1>
+                    {% elif request == 'men' %}
+                        <h1 class="mb-0">Men</h1>
+                    {% elif request == 'women' %}
+                        <h1 class="mb-0">Women</h1>
+                    {% elif request == 'kids' %}
+                        <h1 class="mb-0">Kids</h1>
+                    {% endif %}
+                    <span class="eyebrow" id="totalproduct">{{ product|length }} products</span>
+                </div>
+                <div class="col-md-6 text-md-right">
+                    <div class="dropdown">
+                        <a class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                           href="#!"
+                           role="button"
+                           id="dropdownMenuLink"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">
+                            Sort
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#!">Price high to low</a>
+                            <a class="dropdown-item" href="#!">Price low to high</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row gutter-4">
+        {% include 'filter.html' %}
+        <div class="col-md-9">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"
+                 id="filteredProducts">
+                {% for i in product %}
+                    <div class="col-md-6 col-xl-4">
+                        <div class="product">
+                            <figure class="product-image">
+                                <a href="{% url 'ecommerce:product-detail' i.slug %}">
+                                    <img src="{{ i.images.url }}" width="300" height="450" alt="Image" />
+                                    {% for aux_image in aux_images %}
+                                        {% if aux_image.item_id.item_id == i.item_id %}
+                                            <img src="{{ aux_image.images.url }}" width="300" height="450" alt="Image" />
+                                        {% endif %}
+                                    {% endfor %}
+                                </a>
+                            </figure>
+                            <a class="product-title text-dark"
+                               href="{% url 'ecommerce:product-detail' i.slug %}">{{ i.title }}</a>
+                            <span class="product-price">$ {{ i.price }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>

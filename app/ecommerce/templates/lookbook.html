@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block lookbook %}
+    <!-- hero -->
+    <section class="hero hero-small">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Collections</h1>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item">
+                                <a href="{% url 'ecommerce:shop-all'%}">Shop</a>
+                            </li>
+                            <li class="breadcrumb-item active" aria-current="page">Collections</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- blog -->
+    <section class="pt-0">
+        <div class="container" style="min-height:60vh">
+            <div class="row masonry gutter-1">
+                {% for i in page_obj %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="card card-equal card-highlight equal-150">
+                        <div class="image image-"
+                             style="background-image: url({{ i.images.url }})"></div>
+                        <a href="{% url 'ecommerce:product-detail' i.slug %}">
+                            <div class="card-header">
+                                <span class="eyebrow mb-1 text-gray">{{ i.category.name }}</span>
+                            </div>
+                            <div class="card-footer text-right">
+                                <span class="btn btn-ico btn-rounded btn-gray"><i class="bi-chevron-right"></i></span>
+                            </div>
+                        </a>
+                    </article>
+                </div>           
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ul class="pagination">
+                        {% for i in page_obj.paginator.page_range %}
+                            {% if page_obj.number == i %}
+                                <li class="page-item active">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }} <span class="sr-only">(current)</span></a>
+                                </li>
+                            {% else %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

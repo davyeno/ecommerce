@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart %}
+    {% csrf_token %}
+    <!-- hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center">
+                    <h1>Shopping Cart</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-15">
+        <div class="container" style="min-height:50vh">
+            <div class="row mb-0 d-none d-lg-flex">
+                <div class="col">
+                    <div class="row pr-6">
+                        <div class="col-lg-6">
+                            <span class="eyebrow">Product</span>
+                        </div>
+                        <div class="col-lg-2 text-center">
+                            <span class="eyebrow">Price</span>
+                        </div>
+                        <div class="col-lg-2 text-center">
+                            <span class="eyebrow">Quantity</span>
+                        </div>
+                        <div class="col-lg-2 text-center">
+                            <span class="eyebrow">Total</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col cart-item-list cart-item-list-minimal">
+                    <!-- cart item -->
+                    {% for i in ordered_items %}
+                        <div class="cart-item">
+                            <div class="row align-items-center">
+                                <div class="col-12 col-lg-6">
+                                    <div class="media media-product">
+                                        <a href="{% url 'ecommerce:product-detail' i.item_id.slug %}">
+                                            <img src="{{ i.item_id.images.url }}" alt="Image">
+                                        </a>
+                                        <div class="media-body">
+                                            <h5 class="media-title">{{ i.item_id.title }}</h5>
+                                            <span class="small">SKU: {{ i.SKU }}</span>
+                                            <br>
+                                            <span class="small">Color: {{ i.color }}</span>
+                                            <br>
+                                            <span class="small">Size: {{ i.size }}</span>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 col-lg-2 text-center">
+                                    <span class="cart-item-price">$ {{ i.item_id.price|floatformat:2 }}</span>
+                                </div>
+                                {% for cart_items in cart %}
+                                    {% if cart_items.product == i.SKU %}
+                                        <div class="col-4 col-lg-2 text-center">
+                                            <div class="counter">
+                                                <span class="counter-minus bi-dash"
+                                                      field='qty-{{ forloop.counter }}'
+                                                      data-product='{{ i.SKU }}'></span>
+                                                <input type='text'
+                                                       name='qty-{{ forloop.counter }}'
+                                                       class="counter-value"
+                                                       value="{{ cart_items.qty }}"
+                                                       min="1"
+                                                       max="{{ i.quantity }}"
+                                                       disabled>
+                                                <span class="counter-plus bi-plus"
+                                                      field='qty-{{ forloop.counter }}'
+                                                      data-product='{{ i.SKU }}'></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 col-lg-2 text-center">
+                                            <span class="cart-item-price">$ {{ cart_items.total_price|floatformat:2 }}</span>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                <button class="btn cart-item-close btn-sm" value='{{ i.SKU }}' name="delete">
+                                    <i class="bi-x-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="row justify-content-between">
+                <div class="col-md-6 col-lg-4 align-self-end"></div>
+                <div class="col-md-6 col-lg-4 align-self-end">
+                    <div class="inline-block text-right">
+                        <span class="eyebrow">Subtotal</span>
+                        <h4 class="h2"> $ {{ total_ordered_prices|floatformat:2 }}</h4>
+                        <span class="eyebrow">Taxes and shipping calculated at checkout</span>
+                    </div>
+                    <a href="{% url 'ecommerce:checkout' 'pickup' %}" class="btn btn-lg btn-dark btn-block mt-1">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'vendor/js/cart.js' %}"></script>
+{% endblock %}

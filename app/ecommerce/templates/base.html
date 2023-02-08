@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport"
+              content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+        <link rel="stylesheet" href="{% static '/assets/css/vendor.css' %}" />
+        <link rel="stylesheet" href="{% static '/assets/css/style.css' %}" />
+        <!-- Title -->
+        <title>Viet Ao Dai Boutique</title>
+        <!-- Javascripts -->
+        <script src="{% static '/vendor/jquery/jquery.min.js' %}"></script>
+    </head>
+    <body>
+        <!-- header -->
+        <header class="header header-light header-sticky" style="background-color:#FFFFE9">
+            <div class="container">
+                <div class="row">
+                    <nav class="navbar navbar-expand-lg navbar-light">
+                        <a href="{% url 'ecommerce:shop-all' %}"
+                           class="navbar-brand order-1 order-lg-2">
+                            <img src="{% static '/assets/images/Image.svg' %}"
+                                 height="100"
+                                 width="{% widthratio 175 200 100 as width %}"
+                                 alt="Logo">
+                        </a>
+                        <button class="navbar-toggler order-2"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target=".navbar-collapse"
+                                aria-controls="navbarMenu"
+                                aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse order-3 order-lg-1" id="navbarMenu">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown"
+                                       href="{% url 'ecommerce:shop-all' %}"
+                                       id="navbarDropdown-4"
+                                       role="button"
+                                       data-toggle="dropdown"
+                                       aria-haspopup="true"
+                                       aria-expanded="false">
+                                        Shop
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown-4">
+                                        <ul>
+                                            <li>
+                                                <a class="dropdown-item" href="{% url 'ecommerce:shop-all' %}">All</a>
+                                            </li>
+                                            {% for item in category %}
+                                                <li>
+                                                    <a class="dropdown-item"
+                                                       href="{% url 'ecommerce:shop-category' item.slug_url %}">{{ item.name }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'ecommerce:lookbook' %}">Lookbook</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'website:contact' %}">Contact</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="collapse navbar-collapse order-4 order-lg-3" id="navbarMenu2">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown">
+                                    {% if request.user.is_authenticated %}
+                                        <a class="nav-link dropdown text-capitalize"
+                                           href="#!"
+                                           id="navbarDropdown-10"
+                                           role="button"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false">
+                                            Hi, {{ request.user.first_name|lower }} <i class="bi bi-person"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown-10">
+                                            {% if request.user.is_staff %}
+                                                <li>
+                                                    <a class="dropdown-item " href="{% url 'account:dashboard' %}">Dashboard</a>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <a class="dropdown-item " href="{% url 'account:profile' %}">Profile</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item " href="{% url 'account:orders' %}">Orders</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item text-red"
+                                                   href="{% url 'account:logout' %}?next={{ request.path }}">Log Out</a>
+                                            </li>
+                                        </ul>
+                                    {% else %}
+                                        <a class="nav-link"
+                                           href="{% url 'account:login' %}?next={{ request.path }}">Log In</a>
+                                    {% endif %}
+                                </li>
+                                <li class="nav-item cart">
+                                    <a href="{% url 'ecommerce:shopping-cart' %}" class="nav-link">
+                                        <span class="bi bi-cart2"></span>
+                                        <span id="cart-qty">{{ cart_length }}</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </header>
+        <!-- listing -->
+        {% block shop %}{% endblock %}
+        {% block cart %}{% endblock %}
+        {% block product %}{% endblock %}
+        {% block portal %}{% endblock %}
+        {% block checkout %}{% endblock %}
+        {% block lookbook %}{% endblock %}
+        
+        <footer class="text-gray py-0" style="background-color:#FFFFE9">
+            <div class="container">
+                <div class="row separated">
+                    <div class="col-lg-6 py-5">
+                        
+                        <div class="row">
+                            <div class="col-md-10">
+                                <h4 class="eyebrow mb-2">Quick Links</h4>
+                                <ul class="list-group list-group-columns">
+                                    <li class="list-group-item">
+                                        <a class="text-gray" href="{% url 'website:contact' %}">Contact Us</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a class="text-gray" href="{% url 'website:contact' %}">FAQ</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a class="text-gray" href="{% url 'ecommerce:lookbook' %}">Lookbook</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <a  class="text-gray" href="{% url 'account:terms' %}">Terms of Use</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 py-5">
+                        <div class="row justify-content-end">
+                            <div class="col-lg-10">
+                                <h4 class="eyebrow mb-2">Follow us</h4>
+                                <nav class="nav nav-icons">
+                                    <a class="nav-link ml-3" href="#!"><i class="bi bi-facebook"></i></a>
+                                    <a class="nav-link ml-3" href="#!"><i class="bi bi-twitter"></i></a>
+                                    <a class="nav-link ml-3" href="#!"><i class="bi bi-youtube"></i></a>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-lg-10">
+                                <p class="small">
+                                    Copyrights @ Viet Ao Dai Boutique. Website By David Nguyen
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    <!-- search -->
+    <script src="{% static 'vendor/js/product-filter.js' %}"></script>
+    <!-- javascript -->
+    <script src="{% static '/assets/js/vendor.min.js' %}"></script>
+    <script src="{% static '/assets/js/app.js' %}"></script>
+</body>
+</html>

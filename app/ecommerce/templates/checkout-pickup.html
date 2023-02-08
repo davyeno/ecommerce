@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block checkout %}
+
+<section class="hero">
+    <section class="breadcrumbs">
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="{% url 'ecommerce:shop-all'%}">Shop</a></li>
+                  <li class="breadcrumb-item active" aria-current="all">Checkout Pickup</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Checkout</h1>
+            </div>
+        </div>
+    </div>
+</section>
+{% if messages %}
+{% for message in messages %}
+    {% if "outofstock" in message.tags %}<div class="alert alert-danger text-center">{{ message }}</div>{% endif %}
+{% endfor %}
+{% endif %}
+<section class="no-overflow pt-0">
+    <form method="post" id="ContactInfo">{% csrf_token %}
+    <div class="container">
+        <div class="row gutter-4 justify-content-between">
+            <div class="col-lg-8">  
+                <div class="row align-items-end mb-2">
+                    <div class="col-md-6">
+                        <h2 class="h3 mb-0">
+                            <span class="text-muted">01.</span> Delivery Method
+                        </h2>
+                    </div>
+                </div>     
+                <div class="row gutter-1">
+                    <div class="col-md-6">
+                        <div class="custom-control custom-choice">
+                            <input type="radio" name="choice-shipping" class="custom-control-input" 
+                                id="pickup" checked>
+                            <label class="custom-control-label text-dark" for="pickup">                                
+                                <span class="d-flex justify-content-between mb-1 eyebrow">Pick-up <span class="text-muted">Free</span></span>
+                                Estimated 1-2 business days your order will be ready for pick up.                                
+                            </label>
+                            <span class="choice-indicator"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="custom-control custom-choice">
+                            <input type="radio" name="choice-shipping" class="custom-control-input"
+                                id="shiptohome">
+                            <label class="custom-control-label text-dark" for="shiptohome">
+                                <span class="d-flex justify-content-between mb-1 eyebrow">Shipping <span class="text-muted">$9.99</span></span>
+                                    We currently only offer shipping with-in
+                                Northern Virgina. We will contact you once your
+                                order to ready to ship.
+                            </label>
+                            <span class="choice-indicator"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row align-items-end mb-2">
+                    <div class="col-md-6">
+                        <h2 class="h3 mb-0">
+                            <span class="text-muted">02.</span> Contact Information
+                        </h2>
+                    </div>
+                </div>
+                
+                <div class="row gutter-1 mb-6">
+                    <div class="form-group col-md-6">
+                        <label for="id_first_name">First Name</label>
+                        {{ form.first_name }}
+                        <ul class="list-group list-group-item-danger">
+                            {% for i in form.first_name.errors %}<li class="list-group-item">{{ i|striptags }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="id_last_name">Last Name</label>
+                        {{ form.last_name }}
+                        <ul class="list-group list-group-item-danger">
+                            {% for i in form.last_name.errors %}<li class="list-group-item">{{ i|striptags }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="id_email">Email Address</label>
+                        {{ form.email }}
+                        <ul class="list-group list-group-item-danger">
+                            {% for i in form.email.errors %}<li class="list-group-item">{{ i|striptags }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label for="id_phone_number">Phone Number</label>
+                        {{ form.phone_number }}
+                        <small id="PhoneHelpBlock" class="form-text text-muted">
+                            {{ form.phone_number.help_text }}
+                        </small>
+                        <ul class="list-group list-group-item-danger">
+                            {% for i in form.phone_number.errors %}<li class="list-group-item">{{ i|striptags }}</li>{% endfor %}
+                        </ul>
+                    </div>
+                </div>
+               
+                <!-- delivery -->
+                <div class="row align-items-end mb-2" id="AddressHeader">
+                    <div class="col-md-6">
+                        <h2 class="h3 mb-0">
+                            <span class="text-muted">03.</span> Address
+                        </h2>
+                    </div>
+                </div>
+                 
+                <div class="row gutter-1 mb-6" id="PickUpLocation">
+                    <div class="card card-data">
+                        <div class="card-header">                          
+                            <h5 class="eyebrow text-muted">Pickup Location</h5>
+                        </div>
+                        <div class="card-body w-75">
+                            <h5 class="eyebrow text-muted">Where</h5>
+                            <p class="card-text">                                                             
+                                Fairfax, VA 22030                                
+                                United States                            
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- payment -->
+                <div class="row align-items-end mb-2">
+                    <div class="col-md-6">
+                        <h2 class="h3 mb-0">
+                            <span class="text-muted">04.</span> Payment
+                        </h2>
+                    </div>
+                </div>
+                <div class="row gutter-1 mb-6" id="PaymentOption">
+                    <div class="col-12 pb-1">
+                        <ul class="nav nav-tabs lavalamp" id="myTab"
+                            role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active"
+                                    id="home-tab"
+                                    data-toggle="tab"
+                                    href="#home"
+                                    role="tab"
+                                    aria-controls="home"
+                                    aria-selected="true">Cash</a>
+                            </li>
+                        </ul>
+                    </div>                    
+                </div>
+                <!-- shipping -->
+
+                
+            </div>
+            <aside class="col-lg-4">
+                <div class="row">
+                    <!-- order preview -->
+                    <div class="col-12">
+                        <div class="card card-data bg-light">
+                            <div class="card-header py-2 px-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="fs-18 mb-0">
+                                            Your Cart
+                                        </h3>
+                                    </div>
+                                    <div class="col text-right">
+                                        <a href="{% url 'ecommerce:shopping-cart' %}"
+                                            class="underline eyebrow text-dark">Edit</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                {% for i in ordered_items %}
+                                {% for cart_items in cart %}
+                                {% if cart_items.product == i.SKU %}
+                                <div class="cart-item cart-item-sm">
+                                    <div class="row align-items-center">
+                                        <div class="col-lg-8">
+                                            <div class="media media-product">
+                                                <a href="{% url 'ecommerce:product-detail' i.item_id.slug %}">
+                                                    <img src="{{ i.item_id.images.url }}"
+                                                        width="80" height="120"
+                                                        alt="Image">
+                                                </a>
+                                                <div class="media-body">
+                                                    <h5 class="media-title" style="font-size:0.88em">
+                                                        {{ i.item_id.title }}
+                                                    </h5>
+                                                    <span
+                                                        class="media-subtitle" style="font-size:0.75em">Color:
+                                                        {{ i.color }}</span>
+                                                    <br />
+                                                    <span
+                                                        class="media-subtitle" style="font-size:0.75em">Size:
+                                                        {{ i.size }}</span>
+                                                    <br />
+                                                    <span
+                                                        class="media-subtitle" style="font-size:0.75em">Quantity:
+                                                        {{ cart_items.qty }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 text-center">
+                                            <span style="font-size:0.88em">${{ cart_items.total_price|floatformat:2 }}</span>
+                                        </div>
+                                        <a class="btn-sm cart-item-close"
+                                            value='{{ i.SKU }}' name="delete"><i
+                                                class="bi-x"></i></a>
+                                    </div>
+                                </div>
+                                <div class="p-1">
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- order summary -->
+                    <div class="col-12 mt-1">
+                        <div class="card card-data bg-light">
+                            <div class="card-header py-2 px-3">
+                                <div class="row align-items-center">
+                                    <div class="col">
+                                        <h3 class="fs-18 mb-0">
+                                            Order Summary
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-minimal">
+                                    <li class="list-group-item d-flex
+                                        justify-content-between
+                                        align-items-center">
+                                        <input type="hidden" name='subtotal' value={{ sub_total|floatformat:2 }}>
+                                        Subtotal
+                                        <span>$ {{ sub_total|floatformat:2 }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex
+                                        justify-content-between
+                                        align-items-center">
+                                        Tax
+                                        <span>-</span>
+                                    </li>
+                                    <li class="list-group-item d-flex
+                                        justify-content-between
+                                        align-items-center">
+                                        <input type="hidden" name='shipcost' value='0'>
+                                        Shipping
+                                        <span id="shipping-cost">Free</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-footer py-2">
+                                <ul class="list-group list-group-minimal">
+                                    <li class="list-group-item d-flex
+                                        justify-content-between
+                                        align-items-center text-dark fs-18">
+                                        <input type="hidden" name='totalnet' value={{ total|floatformat:2 }}>
+                                        Total
+                                        <span id="total-net">$ {{ total|floatformat:2 }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- place order -->
+                    <div class="col-12 mt-1">
+                        <input type="submit"
+                                name="Login"
+                                value="Place Order"
+                                class="btn btn-block btn-dark"></input>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    </form>
+</section>
+<script src="{% static 'vendor/js/cart.js' %}"></script>
+{% endblock %}

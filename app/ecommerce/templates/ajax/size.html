@@ -1,0 +1,12 @@
+{% load static %}
+{% for i in size|dictsort:'size_id__id' %}
+    {% ifchanged i.size_id__name %}
+        <label class="btn sizeoptions"
+               id="{{ i.size_id__id }}"
+               value="{{ i.size_id__name }}"
+               style="background-color:#D0D3D4;">
+            <input type="radio" id="{{ i.size_id__name }}">
+            {{ i.size_id__presentation|upper }}
+        </label>
+    {% endifchanged %}
+{% endfor %}

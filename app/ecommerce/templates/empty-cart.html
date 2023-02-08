@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block cart %}
+
+<section class="hero">
+    <div class="container" style="min-height:70vh">
+        <div class="row">
+            <div class="col text-left">
+                <h1>Shopping Cart</h1>
+            </div>        
+        </div>
+        <div class="row vh-md-50">
+            <div class="col text-left">
+                <h5>You have nothing in your shopping cart.</h5>
+                <a href="{% url 'ecommerce:shop-all' %}" type="button" class="btn btn-light">Continue Shopping</a>
+            </div>         
+        </div>
+    </div>
+</section>
+
+{% endblock %}
